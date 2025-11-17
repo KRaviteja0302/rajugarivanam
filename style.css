@@ -1,34 +1,26 @@
 body { background:#f8fafc; color:#374151; }
 
-.hero-gradient { 
-  background: linear-gradient(180deg, rgba(6,95,70,0.06), rgba(255,255,255,0));
+.hero-gradient {
+  background: linear-gradient(180deg, rgba(6,95,70,0.05), white);
 }
-
-.accent { color:#0f766e; }
 
 .logo-box {
   width:55px; height:55px;
   background:#198754; color:#fff;
   display:flex; align-items:center; justify-content:center;
-  font-weight:bold; font-size:22px; border-radius:10px;
+  font-size:22px; font-weight:bold; border-radius:10px;
 }
 
-.hero-img {
-  height:380px; object-fit:cover; width:100%;
-}
+.accent { color:#0f766e; }
+
+.hero-img { height:360px; width:100%; object-fit:cover; }
 
 .quick-card {
-  position:absolute; bottom:15px; right:15px;
-  width:280px; background:rgba(255,255,255,0.7);
-  backdrop-filter:blur(6px);
-  padding:15px; border-radius:12px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  position:absolute; bottom:20px; right:20px;
+  width:280px;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(8px);
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0px 2px 10px rgba(0,0,0,0.2);
 }
-
-.service-card, .space-card {
-  border-radius:16px; background:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,0.08);
-}
-
-.space-img { height:220px; object-fit:cover; width:100%; }
-.gallery-img { height:220px; object-fit:cover; width:100%; border-radius:12px; }

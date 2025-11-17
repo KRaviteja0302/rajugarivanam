@@ -1,6 +1,16 @@
-function openBookingForm(opts = {}) {
-  alert("Booking Requested For: " + (opts.space || "Venue"));
-}
+// Modal instance
+let bookingModal;
 
-document.getElementById("bookTop")?.addEventListener("click", () => openBookingForm());
-document.getElementById("heroBook")?.addEventListener("click", () => openBookingForm());
+document.addEventListener("DOMContentLoaded", () => {
+  bookingModal = new bootstrap.Modal(document.getElementById("bookingModal"));
+});
+
+// Open modal on button click
+document.getElementById("heroBook").onclick = () => bookingModal.show();
+document.getElementById("bookTop").onclick = () => bookingModal.show();
+
+// Quick form → open modal
+document.getElementById("quickForm").onsubmit = (e) => {
+  e.preventDefault();
+  bookingModal.show();
+};
