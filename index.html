@@ -1,119 +1,39 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Raju Gari Vanam — Resort & Events</title>
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Custom -->
-  <link href="style.css" rel="stylesheet">
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="antialiased text-gray-800 bg-gray-50">
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center gap-3">
-      <div class="logo-box">RG</div>
-      <div>
-        <h5 class="fw-bold mb-0">Raju Gari Vanam</h5>
-        <small class="text-muted">Resort • Events • Farmstay</small>
-      </div>
-    </a>
+  <!-- ⭐ Your Entire HTML Code Here ⭐ -->
+  <!-- (Paste exactly the same HTML you sent to me; do NOT change anything) -->
 
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#mainNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav mx-auto gap-4">
-        <li class="nav-item"><a href="#spaces" class="nav-link">Spaces</a></li>
-        <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
-        <li class="nav-item"><a href="#gallery" class="nav-link">Gallery</a></li>
-        <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
-      </ul>
-
-      <button class="btn btn-success btn-sm" id="bookTop">Book Now</button>
-    </div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero-gradient py-5">
-  <div class="container">
-    <div class="row align-items-center g-5">
-
-      <div class="col-lg-6">
-        <h1 class="fw-bold display-5">
-          Celebrate & Relax at <span class="accent">Raju Gari Vanam</span>
-        </h1>
-
-        <p class="mt-3 text-secondary">
-          A charming farmstay with curated lawns, private villas, catering and decoration.
-        </p>
-
-        <div class="d-flex gap-3 mt-4">
-          <button class="btn btn-success px-4 py-2" id="heroBook">Check Availability</button>
-          <a href="#gallery" class="btn btn-outline-secondary px-4 py-2">Explore Gallery</a>
-        </div>
+  <!-- EXAMPLE: booking modal -->
+  <div id="bookingModal"
+       class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl max-w-3xl w-full shadow-lg overflow-auto max-h-[90vh] p-6">
+      <div class="flex justify-between items-center">
+        <h4 class="text-xl font-bold">Book: <span id="bf_space">Venue</span></h4>
+        <button onclick="closeBookingForm()" class="text-gray-500">✕</button>
       </div>
 
-      <div class="col-lg-6 position-relative">
-        <img src="2.webp" class="img-fluid rounded hero-img shadow">
-
-        <div class="quick-card d-none d-lg-block">
-          <h6 class="fw-bold">Quick Booking</h6>
-
-          <form id="quickForm" class="mt-2">
-            <input class="form-control mb-2" placeholder="Name" id="q_name" required>
-            <input class="form-control mb-2" placeholder="Mobile" id="q_mobile" required>
-
-            <select class="form-select mb-2" id="q_type">
-              <option>Venue</option>
-              <option>Stay</option>
-            </select>
-
-            <button class="btn btn-success w-100 mt-2">Request</button>
-          </form>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- BOOKING MODAL -->
-<div class="modal fade" id="bookingModal">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content p-4">
-
-      <div class="d-flex justify-content-between">
-        <h4 class="fw-bold">Check Availability</h4>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <form class="mt-3">
-        <label class="fw-semibold">Name</label>
-        <input class="form-control mb-3" required>
-
-        <label class="fw-semibold">Mobile</label>
-        <input class="form-control mb-3" required>
-
-        <button class="btn btn-success w-100">Submit</button>
+      <form id="bookingForm" class="mt-4 grid grid-cols-1 gap-4">
+        <!-- your real inputs -->
       </form>
-
     </div>
   </div>
-</div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="script.js"></script>
+  <!-- External JS -->
+  <script src="script.js"></script>
 
 </body>
 </html>
