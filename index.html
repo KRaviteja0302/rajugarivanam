@@ -288,7 +288,7 @@
       openBookingForm({space: type + (date? ' on ' + date : '')});
     });
 
-    // Main booking submission — opens email+WhatsApp for admin notification
+    // Main booking submission — sends email via PHP API and opens WhatsApp for admin notification
     document.getElementById('bookingForm').addEventListener('submit', async function(e){
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
@@ -308,19 +308,18 @@
 
       document.getElementById('bookingMsg').innerText = 'Sending booking...';
 
-      /*
-      // BACKEND TODO: When ready, enable this block to also store bookings server-side
-      try{
-        // Post to API (optional) - API should accept meta if schema changed
-        await fetch(API_BASE + '?action=booking_create', {
+      // Send email via backend API (no mailto draft)
+      try {
+        await fetch(API_BASE + '?action=booking_email', {
           method: 'POST',
           headers: { 'Content-Type':'application/json' },
-          body: JSON.stringify({ booking_total_amount:0, booking_status:'pending', meta })
+          body: JSON.stringify({ meta })
         });
-      }catch(e){ console.warn('API send failed', e); }
-      */
+      } catch(e) {
+        console.warn('Email API failed', e);
+      }
 
-      // Build email and WhatsApp links (open in new tabs)
+      // Build WhatsApp link (open in new tab)
       const emailBody = `Name: ${name}
 Email: ${email}
 Mobile: ${mobile}
@@ -331,11 +330,9 @@ Days: ${days}
 Catering: ${catering}
 Decoration: ${decoration}
 Notes: ${notes}`;
-      const mailto = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent('New booking: '+bookingType)}&body=${encodeURIComponent(emailBody)}`;
       const wa = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent('New booking request%0A'+emailBody)}`;
-      window.open(mailto, '_blank');
       window.open(wa, '_blank');
-      document.getElementById('bookingMsg').innerText = 'Booking request created and email/WhatsApp opened for notification.';
+      document.getElementById('bookingMsg').innerText = 'Booking request created. Email sent from server and WhatsApp opened for notification.';
       setTimeout(()=> closeBookingForm(), 1500);
     });
 
@@ -423,7 +420,10 @@ Notes: ${notes}`;
     document.getElementById('bookingForm').addEventListener('submit', function(){
       const startDate = document.getElementById('startDate').value;
       const endDate = document.getElementById('endDate').value;
+      // First, mark dates on the calendar
       markRangeBooked(startDate, endDate || startDate);
+      // Then clear the form fields for the next booking
+      this.reset();
     });
 
     // Set min attribute for all date pickers so past dates cannot be chosen
