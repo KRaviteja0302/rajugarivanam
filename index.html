@@ -86,13 +86,13 @@
     <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="bg-white rounded-xl shadow p-6">
         <h4 class="font-semibold">Venue & Lawns</h4>
-        <p class="text-sm text-gray-600 mt-2">Garden lawn, poolside, open-air mandap — capacity options for 50 to 500+</p>
-        <p class="mt-4 font-bold">Starting ₹20,000 / day</p>
+        <p class="text-sm text-gray-600 mt-2">Garden Lawn, pond side, with open air mandap / stage.</p>
+        <p class="mt-4 font-bold">Price starting from ₹50,000 / day</p>
       </div>
       <div class="bg-white rounded-xl shadow p-6">
         <h4 class="font-semibold">Accommodation</h4>
-        <p class="text-sm text-gray-600 mt-2">Private villas and rooms with clean amenities.</p>
-        <p class="mt-4 font-bold">From ₹2,500 / night</p>
+        <p class="text-sm text-gray-600 mt-2">Private villa with 3 bedrooms, big hall with courtyard also.</p>
+        <p class="mt-4 font-bold">₹25,000 / night</p>
       </div>
       <div class="bg-white rounded-xl shadow p-6">
         <h4 class="font-semibold">Catering & Decoration</h4>
@@ -177,8 +177,12 @@
             <div>
               <label class="text-sm">Booking Type</label>
               <select id="bookingType" class="w-full mt-1 p-3 border rounded">
-                <option value="venue">Venue / Event</option>
-                <option value="stay">Accommodation</option>
+                <option value="">Select option</option>
+                <option value="Venue / Event">Venue / Event</option>
+                <option value="Accommodation">Accommodation</option>
+                <option value="Garden Lawn">Garden Lawn</option>
+                <option value="Poolside">Poolside</option>
+                <option value="Family Villa">Family Villa</option>
               </select>
             </div>
           </div>
@@ -230,7 +234,16 @@
           </div>
 
           <p id="bookingMsg" class="text-sm text-gray-600 mt-2"></p>
-        </form>
+        
+        <!-- Simple calendar preview for booked dates (front-end only) -->
+        <div class="mt-6">
+          <h5 class="text-sm font-semibold mb-2">Booked Dates (this session only)</h5>
+          <div id="bookingCalendar" class="grid grid-cols-7 gap-1 text-xs"></div>
+          <p class="text-[11px] text-gray-500 mt-1">
+            Red dates indicate days you have marked as booked in this browser. Backend sync will be added later.
+          </p>
+        </div>
+      </form>
       </div>
     </div>
   </div>
@@ -238,13 +251,13 @@
   <footer id="contact" class="max-w-7xl mx-auto px-6 py-8 text-sm text-gray-600">
     <div class="flex flex-col md:flex-row items-center justify-between gap-4">
       <div>© <strong>Raju Gari Vanam</strong> — All rights reserved</div>
-      <div>Contact: +91 90009 10119 | raju@example.com</div>
+      <div>Contact: +91 90009 10119 | avkraju01@gmail.com</div>
     </div>
   </footer>
 
   <script>
     // Admin contact - update before deployment
-    const ADMIN_EMAIL = 'raju@example.com';
+    const ADMIN_EMAIL = 'avkraju01@gmail.com';
     const ADMIN_WA = '919000910119';
     const API_BASE = '/api/api.php';
 
@@ -256,6 +269,8 @@
       if(opts.space) {
         // keep space selection in meta
         document.getElementById('notes').placeholder = 'Space: ' + opts.space + ' — Any special requests...';
+        const bt = document.getElementById('bookingType');
+        if(bt) bt.value = opts.space;
       }
     }
     function closeBookingForm(){ document.getElementById('bookingModal').classList.add('hidden'); }
@@ -273,7 +288,7 @@
       openBookingForm({space: type + (date? ' on ' + date : '')});
     });
 
-    // Main booking submission — sends to API and opens email+WhatsApp for admin notification
+    // Main booking submission — opens email+WhatsApp for admin notification
     document.getElementById('bookingForm').addEventListener('submit', async function(e){
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
@@ -293,6 +308,8 @@
 
       document.getElementById('bookingMsg').innerText = 'Sending booking...';
 
+      /*
+      // BACKEND TODO: When ready, enable this block to also store bookings server-side
       try{
         // Post to API (optional) - API should accept meta if schema changed
         await fetch(API_BASE + '?action=booking_create', {
@@ -301,6 +318,7 @@
           body: JSON.stringify({ booking_total_amount:0, booking_status:'pending', meta })
         });
       }catch(e){ console.warn('API send failed', e); }
+      */
 
       // Build email and WhatsApp links (open in new tabs)
       const emailBody = `Name: ${name}
@@ -320,6 +338,107 @@ Notes: ${notes}`;
       document.getElementById('bookingMsg').innerText = 'Booking request created and email/WhatsApp opened for notification.';
       setTimeout(()=> closeBookingForm(), 1500);
     });
+
+    // --- Simple front-end calendar to mark booked dates (per session only) ---
+    const calendarEl = document.getElementById('bookingCalendar');
+    const bookedDates = new Set(); // Stores YYYY-MM-DD strings for this session
+
+    // Today (used to block past dates)
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    function formatDateKey(d) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function buildCalendar(baseDate = new Date()) {
+      if(!calendarEl) return;
+      calendarEl.innerHTML = '';
+
+      const year = baseDate.getFullYear();
+      const month = baseDate.getMonth();
+
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+
+      const weekdays = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+      weekdays.forEach(label => {
+        const h = document.createElement('div');
+        h.textContent = label;
+        h.className = 'text-center font-semibold text-gray-500';
+        calendarEl.appendChild(h);
+      });
+
+      for(let i = 0; i < firstDay.getDay(); i++){
+        const empty = document.createElement('div');
+        calendarEl.appendChild(empty);
+      }
+
+      for(let day = 1; day <= lastDay.getDate(); day++){
+        const d = new Date(year, month, day);
+        d.setHours(0,0,0,0);
+        const key = formatDateKey(d);
+        const cell = document.createElement('div');
+        cell.textContent = day;
+        cell.className = 'h-7 flex items-center justify-center rounded cursor-default text-[11px]';
+
+        if(d < today){
+          // Past dates: greyed out, never marked as booked
+          cell.className += ' bg-gray-200 text-gray-400';
+        } else if(bookedDates.has(key)){
+          // Future booked dates: red
+          cell.className += ' bg-red-500 text-white';
+        } else {
+          // Future available dates
+          cell.className += ' bg-gray-100 text-gray-700';
+        }
+        calendarEl.appendChild(cell);
+      }
+    }
+
+    function markRangeBooked(startStr, endStr){
+      if(!startStr && !endStr) return;
+      const start = startStr ? new Date(startStr) : new Date(endStr);
+      const end = endStr ? new Date(endStr) : new Date(startStr);
+      if(isNaN(start) || isNaN(end)) return;
+
+      // Do not allow marking dates before today
+      const cur = new Date(start);
+      cur.setHours(0,0,0,0);
+      end.setHours(0,0,0,0);
+
+      if(end < today) return; // fully in the past
+      if(cur < today) cur.setTime(today.getTime());
+      while(cur <= end){
+        bookedDates.add(formatDateKey(cur));
+        cur.setDate(cur.getDate() + 1);
+      }
+      buildCalendar(start);
+    }
+
+    // Hook into booking form submit to mark selected date range as booked
+    document.getElementById('bookingForm').addEventListener('submit', function(){
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      markRangeBooked(startDate, endDate || startDate);
+    });
+
+    // Set min attribute for all date pickers so past dates cannot be chosen
+    (function(){
+      const todayStr = new Date().toISOString().split('T')[0];
+      const sd = document.getElementById('startDate');
+      const ed = document.getElementById('endDate');
+      const qd = document.getElementById('q_date');
+      if(sd) sd.setAttribute('min', todayStr);
+      if(ed) ed.setAttribute('min', todayStr);
+      if(qd) qd.setAttribute('min', todayStr);
+    })();
+
+    // Initial calendar for current month
+    buildCalendar();
   </script>
 </body>
 </html>
