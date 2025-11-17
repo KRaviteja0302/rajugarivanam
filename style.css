@@ -1,19 +1,12 @@
-/* Your custom visual tweaks */
 .hero-gradient {
   background: linear-gradient(180deg, rgba(6,95,70,0.06), rgba(255,255,255,0));
-}
-
-.glass {
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(6px);
 }
 
 .accent {
   color: #0f766e;
 }
 
-/* FIX TAILWIND CLASSES (REQUIRED FOR MODAL) */
-.hidden { display: none !important; }
-.flex { display: flex !important; }
-.items-center { align-items: center !important; }
-.justify-center { justify-content: center !important; }
+.glass {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(6px);
+}
