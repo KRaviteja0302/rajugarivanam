@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Raju Gari Vanam — Resort & Events</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* subtle tweaks to match a premium resort feel */
+    .hero-gradient{ background: linear-gradient(180deg, rgba(6,95,70,0.06), rgba(255,255,255,0)); }
+    .glass { background: rgba(255,255,255,0.7); backdrop-filter: blur(6px); }
+    .accent { color: #0f766e; }
+  </style>
+</head>
+<body class="antialiased text-gray-800 bg-gray-50">
+  <!-- Top navbar like mahishmati: logo left, contact CTA right -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-lg bg-emerald-700 text-white flex items-center justify-center font-extrabold">RG</div>
+        <div>
+          <h1 class="text-xl font-bold">Raju Gari Vanam</h1>
+          <p class="text-sm text-gray-500">Resort • Events • Farmstay</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="hidden md:flex gap-6 text-sm text-gray-700">
+          <a href="#spaces" class="hover:underline">Spaces</a>
+          <a href="#services" class="hover:underline">Services</a>
+          <a href="#gallery" class="hover:underline">Gallery</a>
+          <a href="#contact" class="hover:underline">Contact</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="tel:+919000000000" class="text-sm px-4 py-2 border rounded">+91 90000 00000</a>
+          <button id="bookTop" class="bg-emerald-600 text-white px-4 py-2 rounded">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero with big image & floating booking card (desktop) -->
+  <section class="hero-gradient">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-12">
+      <div class="space-y-4">
+        <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight">Celebrate & Relax at <span class="accent">Raju Gari Vanam</span></h2>
+        <p class="text-gray-600 max-w-xl">A charming farmstay with curated lawns, private villas and in-house services — catering, decoration and event support for every celebration.</p>
+        <div class="flex gap-3 mt-6">
+          <button id="heroBook" class="bg-emerald-600 text-white px-6 py-3 rounded-lg shadow">Check Availability</button>
+          <a href="#gallery" class="px-6 py-3 rounded-lg border">Explore Gallery</a>
+        </div>
+        <ul class="mt-6 grid sm:grid-cols-2 gap-2 text-sm text-gray-700">
+          <li>• Lawns & Poolside Venues</li>
+          <li>• Accommodation & Family Villas</li>
+          <li>• Decoration Packages</li>
+          <li>• In-house Catering & Live Counters</li>
+        </ul>
+      </div>
+
+      <div class="relative">
+        <img src="/mnt/data/2.webp" alt="Raju Gari Vanam" class="w-full h-96 object-cover rounded-xl shadow-lg" />
+        <!-- Floating booking card (desktop) -->
+        <div class="absolute right-6 bottom-6 w-80 glass rounded-xl p-4 shadow-lg hidden lg:block">
+          <h4 class="font-semibold">Quick Booking</h4>
+          <p class="text-sm text-gray-600">Book a venue or stay — we will confirm availability.</p>
+          <form id="quickForm" class="mt-3 space-y-3">
+            <input id="q_name" required placeholder="Name" class="w-full p-2 border rounded" />
+            <input id="q_mobile" required placeholder="Mobile" class="w-full p-2 border rounded" />
+            <select id="q_type" class="w-full p-2 border rounded">
+              <option value="Venue">Venue / Event</option>
+              <option value="Stay">Accommodation</option>
+            </select>
+            <div class="flex gap-2">
+              <input id="q_date" type="date" class="w-1/2 p-2 border rounded" />
+              <input id="q_days" type="number" min="1" value="1" class="w-1/2 p-2 border rounded" />
+            </div>
+            <button type="submit" class="w-full bg-emerald-600 text-white p-2 rounded">Request</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services & Pricing (like mahishmati sections) -->
+  <section id="services" class="max-w-7xl mx-auto px-6 py-10">
+    <h3 class="text-2xl font-bold">Services</h3>
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white rounded-xl shadow p-6">
+        <h4 class="font-semibold">Venue & Lawns</h4>
+        <p class="text-sm text-gray-600 mt-2">Garden lawn, poolside, open-air mandap — capacity options for 50 to 500+</p>
+        <p class="mt-4 font-bold">Starting ₹20,000 / day</p>
+      </div>
+      <div class="bg-white rounded-xl shadow p-6">
+        <h4 class="font-semibold">Accommodation</h4>
+        <p class="text-sm text-gray-600 mt-2">Private villas and rooms with clean amenities.</p>
+        <p class="mt-4 font-bold">From ₹2,500 / night</p>
+      </div>
+      <div class="bg-white rounded-xl shadow p-6">
+        <h4 class="font-semibold">Catering & Decoration</h4>
+        <p class="text-sm text-gray-600 mt-2">Custom menus and decoration packages — basic to grand.</p>
+        <p class="mt-4 font-bold">Per plate pricing & packages</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spaces / Cards -->
+  <section id="spaces" class="max-w-7xl mx-auto px-6 py-10">
+    <h3 class="text-2xl font-bold">Our Spaces</h3>
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card: Lawn -->
+      <article class="bg-white rounded-xl shadow overflow-hidden">
+        <img src="/mnt/data/1.webp" class="w-full h-56 object-cover" />
+        <div class="p-4">
+          <h4 class="font-semibold">Garden Lawn</h4>
+          <p class="text-sm text-gray-600">Capacity 300 — Ideal for weddings & receptions.</p>
+          <p class="mt-2 font-bold">₹40,000 / day</p>
+          <button class="mt-3 w-full bg-emerald-600 text-white py-2 rounded" onclick="openBookingForm({space:'Garden Lawn', price:40000})">Book Now</button>
+        </div>
+      </article>
+      <!-- Card: Poolside -->
+      <article class="bg-white rounded-xl shadow overflow-hidden">
+        <img src="/mnt/data/3.webp" class="w-full h-56 object-cover" />
+        <div class="p-4">
+          <h4 class="font-semibold">Poolside</h4>
+          <p class="text-sm text-gray-600">Evening parties & intimate gatherings.</p>
+          <p class="mt-2 font-bold">₹25,000 / day</p>
+          <button class="mt-3 w-full bg-emerald-600 text-white py-2 rounded" onclick="openBookingForm({space:'Poolside', price:25000})">Book Now</button>
+        </div>
+      </article>
+      <!-- Card: Villa -->
+      <article class="bg-white rounded-xl shadow overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1505691723518-36a2d6e4f0e0?auto=format&fit=crop&w=1200&q=60" class="w-full h-56 object-cover" />
+        <div class="p-4">
+          <h4 class="font-semibold">Family Villa</h4>
+          <p class="text-sm text-gray-600">Private villa with garden — perfect for family stays.</p>
+          <p class="mt-2 font-bold">₹8,000 / night</p>
+          <button class="mt-3 w-full bg-emerald-600 text-white py-2 rounded" onclick="openBookingForm({space:'Family Villa', price:8000})">Book Now</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Gallery (large) -->
+  <section id="gallery" class="max-w-7xl mx-auto px-6 py-10">
+    <h3 class="text-2xl font-bold">Gallery</h3>
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <img src="/mnt/data/1.webp" class="w-full h-56 object-cover rounded-lg shadow" />
+      <img src="/mnt/data/2.webp" class="w-full h-56 object-cover rounded-lg shadow" />
+      <img src="/mnt/data/3.webp" class="w-full h-56 object-cover rounded-lg shadow" />
+    </div>
+  </section>
+
+  <!-- Booking Modal (single unified form for venue/stay) -->
+  <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl max-w-3xl w-full shadow-lg overflow-auto max-h-[90vh]">
+      <div class="p-6">
+        <div class="flex justify-between items-center">
+          <h4 class="text-xl font-bold">Book: <span id="bf_space">Venue</span></h4>
+          <button onclick="closeBookingForm()" class="text-gray-500">✕</button>
+        </div>
+        <form id="bookingForm" class="mt-4 grid grid-cols-1 gap-4">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm">Name</label>
+              <input required id="name" name="name" class="w-full mt-1 p-3 border rounded" placeholder="Full name" />
+            </div>
+            <div>
+              <label class="text-sm">Email</label>
+              <input required id="email" type="email" name="email" class="w-full mt-1 p-3 border rounded" placeholder="you@example.com" />
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm">Mobile</label>
+              <input required id="mobile" name="mobile" class="w-full mt-1 p-3 border rounded" placeholder="(+91) 9xxxxxxxxx" />
+            </div>
+            <div>
+              <label class="text-sm">Booking Type</label>
+              <select id="bookingType" class="w-full mt-1 p-3 border rounded">
+                <option value="venue">Venue / Event</option>
+                <option value="stay">Accommodation</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-3 gap-4">
+            <div>
+              <label class="text-sm">Start Date</label>
+              <input id="startDate" name="startDate" type="date" class="w-full mt-1 p-3 border rounded" />
+            </div>
+            <div>
+              <label class="text-sm">End Date</label>
+              <input id="endDate" name="endDate" type="date" class="w-full mt-1 p-3 border rounded" />
+            </div>
+            <div>
+              <label class="text-sm">Days / Nights</label>
+              <input id="days" name="days" type="number" min="1" value="1" class="w-full mt-1 p-3 border rounded" />
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm">Catering</label>
+              <select id="catering" name="catering" class="w-full mt-1 p-3 border rounded">
+                <option value="none">None</option>
+                <option value="veg">Veg</option>
+                <option value="nonveg">Non-Veg</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-sm">Decoration</label>
+              <select id="decoration" name="decoration" class="w-full mt-1 p-3 border rounded">
+                <option value="none">None</option>
+                <option value="basic">Basic</option>
+                <option value="premium">Premium</option>
+                <option value="grand">Grand</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-sm">Additional Details</label>
+            <textarea id="notes" name="notes" class="w-full mt-1 p-3 border rounded" placeholder="Approx headcount, menu requests, special instructions"></textarea>
+          </div>
+
+          <div class="flex gap-3 mt-4">
+            <button id="submitBooking" type="submit" class="bg-emerald-600 text-white px-6 py-3 rounded-lg">Send Booking</button>
+            <button type="button" onclick="closeBookingForm()" class="px-6 py-3 rounded-lg border">Cancel</button>
+          </div>
+
+          <p id="bookingMsg" class="text-sm text-gray-600 mt-2"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer id="contact" class="max-w-7xl mx-auto px-6 py-8 text-sm text-gray-600">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>© <strong>Raju Gari Vanam</strong> — All rights reserved</div>
+      <div>Contact: +91 90000 00000 | raju@example.com</div>
+    </div>
+  </footer>
+
+  <script>
+    // Admin contact - update before deployment
+    const ADMIN_EMAIL = 'raju@example.com';
+    const ADMIN_WA = '919000000000';
+    const API_BASE = '/api/api.php';
+
+    // Open booking modal helpers
+    function openBookingForm(opts = {}){
+      document.getElementById('bookingModal').classList.remove('hidden');
+      document.getElementById('bf_space').innerText = opts.space || 'Venue';
+      if(opts.price) document.getElementById('bookingMsg').innerText = 'Estimated price: ₹' + opts.price;
+      if(opts.space) {
+        // keep space selection in meta
+        document.getElementById('notes').placeholder = 'Space: ' + opts.space + ' — Any special requests...';
+      }
+    }
+    function closeBookingForm(){ document.getElementById('bookingModal').classList.add('hidden'); }
+
+    document.getElementById('bookTop').addEventListener('click', ()=> openBookingForm());
+    document.getElementById('heroBook').addEventListener('click', ()=> openBookingForm());
+
+    // QuickForm handler
+    document.getElementById('quickForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('q_name').value.trim();
+      const mobile = document.getElementById('q_mobile').value.trim();
+      const type = document.getElementById('q_type').value;
+      const date = document.getElementById('q_date').value;
+      openBookingForm({space: type + (date? ' on ' + date : '')});
+    });
+
+    // Main booking submission — sends to API and opens email+WhatsApp for admin notification
+    document.getElementById('bookingForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+      const bookingType = document.getElementById('bookingType').value;
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const days = document.getElementById('days').value;
+      const catering = document.getElementById('catering').value;
+      const decoration = document.getElementById('decoration').value;
+      const notes = document.getElementById('notes').value.trim();
+
+      if(!name || !email || !mobile){ document.getElementById('bookingMsg').innerText = 'Please fill name, email and mobile.'; return; }
+
+      const meta = { name, email, mobile, bookingType, startDate, endDate, days, catering, decoration, notes };
+
+      document.getElementById('bookingMsg').innerText = 'Sending booking...';
+
+      try{
+        // Post to API (optional) - API should accept meta if schema changed
+        await fetch(API_BASE + '?action=booking_create', {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify({ booking_total_amount:0, booking_status:'pending', meta })
+        });
+      }catch(e){ console.warn('API send failed', e); }
+
+      // Build email and WhatsApp links (open in new tabs)
+      const emailBody = `Name: ${name}
+Email: ${email}
+Mobile: ${mobile}
+Type: ${bookingType}
+Start: ${startDate}
+End: ${endDate}
+Days: ${days}
+Catering: ${catering}
+Decoration: ${decoration}
+Notes: ${notes}`;
+      const mailto = `mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent('New booking: '+bookingType)}&body=${encodeURIComponent(emailBody)}`;
+      const wa = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent('New booking request%0A'+emailBody)}`;
+      window.open(mailto, '_blank');
+      window.open(wa, '_blank');
+      document.getElementById('bookingMsg').innerText = 'Booking request created and email/WhatsApp opened for notification.';
+      setTimeout(()=> closeBookingForm(), 1500);
+    });
+  </script>
+</body>
+</html>
