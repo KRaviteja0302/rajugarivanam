@@ -20,7 +20,7 @@ if ($action === 'booking_email') {
     $meta = $payload['meta'];
 
     // Adjust this to your admin email if needed
-    $to = 'avkraju01@gmail.com';
+    $to = 'kothagunduraviteja@gmail.com';
     $subject = 'New booking: ' . ($meta['bookingType'] ?? 'Booking');
 
     $lines = [
