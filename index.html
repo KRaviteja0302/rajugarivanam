@@ -288,7 +288,7 @@
       openBookingForm({space: type + (date? ' on ' + date : '')});
     });
 
-    // Main booking submission  sends email via PHP API and opens WhatsApp for admin notification
+    // Main booking submission   sends email via PHP API and opens WhatsApp for admin notification
     document.getElementById('bookingForm').addEventListener('submit', async function(e){
       e.preventDefault();
       const form = this;
@@ -305,9 +305,10 @@
 
       if(!name || !email || !mobile){ document.getElementById('bookingMsg').innerText = 'Please fill name, email and mobile.'; return; }
 
-      // Prevent booking a range that is already marked as booked in this session
-      if(startDate && (bookedDates.has(startDate) || (endDate && bookedDates.has(endDate)))){
+      // Prevent booking a range that is already marked as booked in this session (checks full range)
+      if(startDate && rangeHasBooked(startDate, endDate || startDate)){
         document.getElementById('bookingMsg').innerText = 'Selected dates are already booked. Please choose another date.';
+        alert('These dates are already booked. Please choose another date.');
         return;
       }
 
@@ -339,14 +340,14 @@ Decoration: ${decoration}
 Notes: ${notes}`;
       const wa = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent('New booking request%0A'+emailBody)}`;
       window.open(wa, '_blank');
-      document.getElementById('bookingMsg').innerText = 'Booking request created. Email sent from server and WhatsApp opened for notification.';
+      document.getElementById('bookingMsg').innerText = 'Booking request created. Dates marked as booked below. Email sent from server and WhatsApp opened for notification.';
 
       // Mark the selected range as booked in the mini calendar and clear the form
       if(startDate){
         markRangeBooked(startDate, endDate || startDate);
       }
       form.reset();
-      setTimeout(()=> closeBookingForm(), 1500);
+      // keep modal open so user can see red dates; they can close manually
     });
 
     // --- Simple front-end calendar to mark booked dates (per session only) ---
@@ -409,6 +410,23 @@ Notes: ${notes}`;
       }
     }
 
+    // Check if any date in the given range is already booked
+    function rangeHasBooked(startStr, endStr){
+      if(!startStr) return false;
+      const start = new Date(startStr);
+      const end = endStr ? new Date(endStr) : new Date(startStr);
+      if(isNaN(start) || isNaN(end)) return false;
+
+      const cur = new Date(start);
+      cur.setHours(0,0,0,0);
+      end.setHours(0,0,0,0);
+      while(cur <= end){
+        if(bookedDates.has(formatDateKey(cur))) return true;
+        cur.setDate(cur.getDate() + 1);
+      }
+      return false;
+    }
+
     function markRangeBooked(startStr, endStr){
       if(!startStr && !endStr) return;
       const start = startStr ? new Date(startStr) : new Date(endStr);
@@ -438,6 +456,18 @@ Notes: ${notes}`;
       if(sd) sd.setAttribute('min', todayStr);
       if(ed) ed.setAttribute('min', todayStr);
       if(qd) qd.setAttribute('min', todayStr);
+
+      // When user manually selects a booked date in the date fields, show popup and clear it
+      [sd, ed].forEach(function(el){
+        if(!el) return;
+        el.addEventListener('change', function(){
+          if(!this.value) return;
+          if(bookedDates.has(this.value)){
+            alert('This date is already booked. Please choose another date.');
+            this.value = '';
+          }
+        });
+      });
     })();
 
     // Initial calendar for current month
