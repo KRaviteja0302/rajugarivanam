@@ -288,9 +288,10 @@
       openBookingForm({space: type + (date? ' on ' + date : '')});
     });
 
-    // Main booking submission — sends email via PHP API and opens WhatsApp for admin notification
+    // Main booking submission  sends email via PHP API and opens WhatsApp for admin notification
     document.getElementById('bookingForm').addEventListener('submit', async function(e){
       e.preventDefault();
+      const form = this;
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const mobile = document.getElementById('mobile').value.trim();
@@ -303,6 +304,12 @@
       const notes = document.getElementById('notes').value.trim();
 
       if(!name || !email || !mobile){ document.getElementById('bookingMsg').innerText = 'Please fill name, email and mobile.'; return; }
+
+      // Prevent booking a range that is already marked as booked in this session
+      if(startDate && (bookedDates.has(startDate) || (endDate && bookedDates.has(endDate)))){
+        document.getElementById('bookingMsg').innerText = 'Selected dates are already booked. Please choose another date.';
+        return;
+      }
 
       const meta = { name, email, mobile, bookingType, startDate, endDate, days, catering, decoration, notes };
 
@@ -333,6 +340,12 @@ Notes: ${notes}`;
       const wa = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent('New booking request%0A'+emailBody)}`;
       window.open(wa, '_blank');
       document.getElementById('bookingMsg').innerText = 'Booking request created. Email sent from server and WhatsApp opened for notification.';
+
+      // Mark the selected range as booked in the mini calendar and clear the form
+      if(startDate){
+        markRangeBooked(startDate, endDate || startDate);
+      }
+      form.reset();
       setTimeout(()=> closeBookingForm(), 1500);
     });
 
@@ -415,16 +428,6 @@ Notes: ${notes}`;
       }
       buildCalendar(start);
     }
-
-    // Hook into booking form submit to mark selected date range as booked
-    document.getElementById('bookingForm').addEventListener('submit', function(){
-      const startDate = document.getElementById('startDate').value;
-      const endDate = document.getElementById('endDate').value;
-      // First, mark dates on the calendar
-      markRangeBooked(startDate, endDate || startDate);
-      // Then clear the form fields for the next booking
-      this.reset();
-    });
 
     // Set min attribute for all date pickers so past dates cannot be chosen
     (function(){
